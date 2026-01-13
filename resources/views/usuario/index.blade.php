@@ -25,6 +25,11 @@
                             </div>
                         </form>
                     </div>
+                    @if(Session::has('mensaje'))
+                        <div class="alert" role="alert">
+                            {{ session::get('mensaje') }}
+                        </div>
+                    @endif
                     <div class="table-responsive mt-3">
                     <table class="table table-bordered">
                       <thead>
