@@ -35,7 +35,7 @@
                     <table class="table table-bordered">
                       <thead>
                         <tr>
-                          <th style="width: 10px">Opciones</th>
+                          <th style="width: 90px">Opciones</th>
                           <th>ID</th>
                           <th>Nombre</th>
                           <th>Email</th>
@@ -52,6 +52,9 @@
                             @foreach ($registros as $registro )
                               <tr>
                                 <td>
+                                  <a href="{{ route('usuarios.edit', $registro->id ) }}" class="btn btn-info btn-sm">
+                                    <i class="bi bi-pencil-square"></i>
+                                  </a>
                                   <button class="btn btn-danger btn-sm"
                                   data-bs-toggle="modal"
                                   data-bs-target="#modal-toggle-{{ $registro->id }}">

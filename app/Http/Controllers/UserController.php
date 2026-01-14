@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -26,15 +28,23 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('usuario.action');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        $registro = new User();
+        $registro->name = $request->input('name');
+        $registro->email = $request->input('email');
+        $registro->password = Hash::make($request->input('password'));
+        $registro->activo = $request->input('activo');
+
+        $registro->save();
+
+        return redirect()->route('usuarios.index')->with('mensaje', 'Usuario creado correctamente.');
     }
 
     /**
@@ -48,17 +58,27 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        //
+        $registro = User::findOrFail($id);
+        return view('usuario.action', compact('registro'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, $id)
     {
-        //
+        $registro = User::findOrFail($id);
+        $registro->name = $request->input('name');
+        $registro->email = $request->input('email');
+        if ($request->filled('password')) {
+            $registro->password = Hash::make($request->input('password'));
+        }
+        $registro->activo = $request->input('activo');
+        $registro->save();
+
+        return redirect()->route('usuarios.index')->with('mensaje','Registro' . $registro->name . 'Usuario actualizado correctamente.');
     }
 
     /**
